@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProyectoNugetVirtualStore.Models;
+using System.Security.Claims;
 
 namespace ApiVirtualStore.Controllers
 {
@@ -17,7 +19,7 @@ namespace ApiVirtualStore.Controllers
             this.repo = repo;
         }
 
-        [Authorize]
+      
         [HttpGet]
         [Route("[action]/{idcompra}")]
         public async Task<ActionResult<Compra>> FindCompra(int idcompra)
@@ -31,10 +33,20 @@ namespace ApiVirtualStore.Controllers
         [Authorize]
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<Compra>> InsertarCompra(int idcompra)
+        
+        public async Task<ActionResult> InsertarCompra(List<Juegos> juegos)
         {
 
-            return await this.repo.FindCompra(idcompra);
+            Claim claim = HttpContext.User.Claims.SingleOrDefault(x => x.Type == "UserData");
+
+
+            string jsonUsuario = claim.Value;
+
+            Usuario usuarios = JsonConvert.DeserializeObject<Usuario>
+                (jsonUsuario);
+            await this.repo.InsertarCompra(juegos, usuarios.IdUsuario);
+            return Ok();
+               
 
         }
 

@@ -17,7 +17,7 @@ namespace ApiVirtualStore.Controllers
             this.repo = repo;
         }
 
-        [Authorize]
+     
         [HttpGet]
         [Route("[action]")]
         public async Task<ActionResult<List<Juegos>>> GetJuegos()
@@ -48,6 +48,16 @@ namespace ApiVirtualStore.Controllers
         {
             return await this.repo.GetJuegosFiltros(posicion, precio, categoria);   
 
+        }
+
+
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<List<Juegos>>> GetJuegosCarrito(List<int> ids)
+        {
+            return await this.repo.GetJuegosCarritosAsync(ids);
         }
     }
 }

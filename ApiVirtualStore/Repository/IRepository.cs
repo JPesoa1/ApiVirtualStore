@@ -28,7 +28,7 @@ namespace ApiVirtualStore.Repository
 
         Task<List<Juegos>> GetJuegosCarritosAsync(List<int> idjuegos);
 
-        Task InsertarCompra(List<Juegos> juegos, int idusuario, DateTime fecha);
+        Task InsertarCompra(List<Juegos> juegos, int idusuario);
 
 
         Task<Compra> FindCompra(int idcompra);

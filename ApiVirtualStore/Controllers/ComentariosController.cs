@@ -17,7 +17,7 @@ namespace ApiVirtualStore.Controllers
             this.repo = repo;
         }
 
-        [Authorize]
+     
         [HttpGet]
         [Route("[action]/{idjuego}")]
         public async Task<ActionResult<List<Comentarios>>> GetComentarios(int idjuego)
@@ -25,7 +25,7 @@ namespace ApiVirtualStore.Controllers
             return await this.repo.GetComentarios(idjuego);
         }
 
-        [Authorize]
+   
         [HttpPost]
         [Route("[action]")]
         public async Task<ActionResult> InsertarComentarios(Comentarios comentarios)

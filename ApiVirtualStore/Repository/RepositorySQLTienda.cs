@@ -2,11 +2,13 @@
 using ApiVirtualStore.Helpers;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProyectoNugetVirtualStore.Models;
 
 using ProyectoVirtualStore.Models;
 using System.Data;
 using System.Diagnostics.Metrics;
+using System.Security.Claims;
 
 #region
 
@@ -236,14 +238,16 @@ namespace ApiVirtualStore.Repository
         }
 
 
-        public async Task InsertarCompra(List<Juegos> juegos , int idUsuario,DateTime fecha)
+        public async Task InsertarCompra(List<Juegos> juegos , int idusuario)
         {
+            DateTime fecha = new DateTime();
+
             Decimal preciototal = 0;
 
             int idcompra = this.GetMaxIdCompra();
             Compra compra = new Compra();
             compra.IdCompra = idcompra;
-            compra.IdUsuario = idUsuario;
+            compra.IdUsuario = idusuario;
             compra.PrecioTotal = 0;
             compra.FechaCompra = fecha;
 
@@ -260,7 +264,6 @@ namespace ApiVirtualStore.Repository
                
             }
             await this.context.SaveChangesAsync();
-
 
             Compra compraFinal = await FindCompra(idcompra);
 

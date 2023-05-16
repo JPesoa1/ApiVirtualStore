@@ -17,7 +17,7 @@ namespace ApiVirtualStore.Controllers
             this.repo = repo;
         }
 
-        [Authorize]
+       
         [HttpGet]
         [Route("[action]/{idjuego}")]
         public async Task<ActionResult<List<Imagenes>>> GetImagenes(int idjuego)

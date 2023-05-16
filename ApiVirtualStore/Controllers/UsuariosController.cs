@@ -31,6 +31,7 @@ namespace ApiVirtualStore.Controllers
             return Ok();
         }
 
+
         [Authorize]
         [HttpGet]
         [Route("[action]")]
@@ -47,7 +48,7 @@ namespace ApiVirtualStore.Controllers
             return usuarios;
         }
 
-
+        [Authorize]
         [HttpPost]
         [Route("[action]/{imagen}")]
         public async Task<ActionResult<Usuario>> ModificarUsuarioImagen(string imagen)

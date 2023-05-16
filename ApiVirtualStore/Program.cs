@@ -1,14 +1,33 @@
-using ApiVirtualStore.Data;
+﻿using ApiVirtualStore.Data;
 using ApiVirtualStore.Helpers;
 using ApiVirtualStore.Repository;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAzureClients(factory =>
+{
+    factory.AddSecretClient(builder.Configuration.GetSection("KeyVault"));
+});
 
-string connectionString = builder.Configuration.GetConnectionString("SqlAzure");
+//DEBEMOS RECUPERAR, DE FORMA EXPLICITA EL SECRETCLIENT INYECTADO 
+
+SecretClient secretClient =
+
+builder.Services.BuildServiceProvider().GetService<SecretClient>();
+
+KeyVaultSecret keyVaultSecret = await
+
+secretClient.GetSecretAsync("SqlAzure");
+
+// Add services to the container. 
+
+string connectionString = keyVaultSecret.Value;
+
 
 builder.Services.AddSingleton<HelperOAuthToken>();
 HelperOAuthToken helper = new HelperOAuthToken(builder.Configuration);
